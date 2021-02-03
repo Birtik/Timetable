@@ -6,9 +6,6 @@ spl_autoload_register(function ($class){
     require "{$class}.php";
 });
 
-
-Generate::getCountOfDoneDays($connection,1);
-
 if(isset($_GET['id'])){
     echo "Hello there!<br>";
 
