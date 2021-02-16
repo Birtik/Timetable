@@ -7,6 +7,3 @@ class Connect
         return 'mysql:dbname='.$dbname.';host='.$host;
     }
 }
-
-
-?>

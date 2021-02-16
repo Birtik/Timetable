@@ -3,11 +3,6 @@
 
 class Generate
 {
-    private static $days_in_month = [31,28,31,30,31,30,31,31,30,31,30,31];
-
-    public static function getMonth(){
-        return (getdate())['mon'];
-    }
 
     /**
      * Insert new position into DB
@@ -21,14 +16,15 @@ class Generate
 
         if(!static::checkExistData($conn))
         {
-            $month = static::getMonth();
+            $month = getdate()['mon'];
+            $year = getdate()['year'];
 
-            $days = static::checkMonth($month);
+            $days = static::getNumberOfDays($month,$year);
 
             $values = '';
 
             for($i=1;$i<=$days;$i++){
-                $values .=  $i == $days ? "('2020-{$month}-{$i}',1);" : "('2021-{$month}-{$i}',1),";
+                $values .=  $i == $days ? "('{$year}-{$month}-{$i}',1);" : "('{$year}-{$month}-{$i}',1),";
             }
 
             $sql = "INSERT INTO `trainings` (`date`,`add`) VALUES {$values}";
@@ -46,7 +42,7 @@ class Generate
      */
     public static function checkExistData($conn){
 
-        $month = static::getMonth();
+        $month = getdate()['mon'];
         $sql = "SELECT * FROM trainings WHERE MONTH(date) = :month LIMIT 1";
 
         $stmt = $conn->prepare($sql);
@@ -63,19 +59,19 @@ class Generate
 
 
     /**
-     * Checking a month
+     * Return the number of days in a month
      * 
      * @param Integer $number numberOfMonth
-     * 
+     *
+     * @param Integer $year CurrentYear
+     *
      * @return void
      * 
      */
-    public static function checkMonth($number){
-
-        return static::$days_in_month[$number-1];
+    public static function getNumberOfDays($number,$year)
+    {
+        return cal_days_in_month(CAL_GREGORIAN, $number, $year);
     }
-
-
 
     /**
      * Return data from 
@@ -87,7 +83,7 @@ class Generate
      */
     public static function getDays($conn){
 
-        $month = static::getMonth();
+        $month = getdate()['mon'];
         $sql = "SELECT * FROM trainings WHERE MONTH(date) = :month ";
 
         $stmt = $conn->prepare($sql);
@@ -110,7 +106,7 @@ class Generate
      */
     public static function getCountOfDoneDays($conn,$att){
 
-        $month = static::getMonth();
+        $month = getdate()['mon'];
         $sql = '';
 
         if($att==1)
@@ -149,9 +145,10 @@ class Generate
      */
     public static function getProgress($conn,$att){
 
-        $month = static::getMonth();
+        $month = getdate()['mon'];
+        $year = getdate()['year'];
 
-        $days = static::checkMonth($month);
+        $days = static::getNumberOfDays($month,$year);
 
         $count =  static::getCountOfDoneDays($conn,$att);
 

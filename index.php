@@ -24,7 +24,7 @@ if(isset($_GET['id'])){
     $stmt->bindParam(":id",$_GET['id'],PDO::PARAM_INT);
     $stmt->execute();
     
-    header('Location: /');
+    header('Location: /new/Timetable/');
 }
 
 Generate::generateDays($connection);
@@ -69,9 +69,9 @@ $days = Generate::getDays($connection);
 <?php endforeach; ?>
 <tr>
     <td>Ilość</td>
-    <td><?php echo Generate::getCountOfDoneDays($connection,1)."/".Generate::checkMonth(Generate::getMonth());?></td>
-    <td><?php echo Generate::getCountOfDoneDays($connection,2)."/".Generate::checkMonth(Generate::getMonth());?></td>
-    <td><?php echo Generate::getCountOfDoneDays($connection,3)."/".Generate::checkMonth(Generate::getMonth());?></td>
+    <td><?php echo Generate::getCountOfDoneDays($connection,1)."/".Generate::getNumberOfDays(getdate()['mon'],getdate()['year']);?></td>
+    <td><?php echo Generate::getCountOfDoneDays($connection,2)."/".Generate::getNumberOfDays(getdate()['mon'],getdate()['year']);?></td>
+    <td><?php echo Generate::getCountOfDoneDays($connection,3)."/".Generate::getNumberOfDays(getdate()['mon'],getdate()['year']);?></td>
 </tr>
 <tr>
     <td>Wykonanie</td>
