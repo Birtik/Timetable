@@ -1,6 +1,5 @@
 <?php 
 
-
 class Generate
 {
 
@@ -14,23 +13,24 @@ class Generate
      */
     public static function generateDays($conn){
 
-        if(!static::checkExistData($conn))
-        {
-            $month = getdate()['mon'];
-            $year = getdate()['year'];
-
-            $days = static::getNumberOfDays($month,$year);
-
-            $values = '';
-
-            for($i=1;$i<=$days;$i++){
-                $values .=  $i == $days ? "('{$year}-{$month}-{$i}',1);" : "('{$year}-{$month}-{$i}',1),";
-            }
-
-            $sql = "INSERT INTO `trainings` (`date`,`add`) VALUES {$values}";
-            $stmt = $conn->prepare($sql);
-            $stmt->execute();
+        if(static::checkExistData($conn)) {
+            return;
         }
+
+        $month = getdate()['mon'];
+        $year = getdate()['year'];
+
+        $days = static::getNumberOfDays($month,$year);
+
+        $values = '';
+
+        for($i=1;$i<=$days;$i++){
+            $values .=  $i == $days ? "('{$year}-{$month}-{$i}',1);" : "('{$year}-{$month}-{$i}',1),";
+        }
+
+        $sql = "INSERT INTO `trainings` (`date`,`add`) VALUES {$values}";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
     }
 
     /**
@@ -121,8 +121,6 @@ class Generate
         {
             $sql = "SELECT COUNT(*) as c FROM `trainings` WHERE MONTH(`date`) = :month AND `add` = 0";
         }
-
-        $stmt = $conn->prepare($sql);
 
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(":month",$month,PDO::PARAM_STR);
