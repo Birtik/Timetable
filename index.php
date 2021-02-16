@@ -3,11 +3,12 @@
 $connection = require('conf.php');
 
 spl_autoload_register(function ($class){
-    require "{$class}.php";
+    require "Class\{$class}.php";
 });
 
 if(isset($_GET['id'])){
-    echo "Hello there!<br>";
+
+    $sql = '';
 
     if(isset($_GET['dev'])){
         $sql = "UPDATE `trainings` SET `dev` = 1 WHERE id = :id";
@@ -26,10 +27,7 @@ if(isset($_GET['id'])){
     header('Location: /');
 }
 
-
-
 Generate::generateDays($connection);
-
 $days = Generate::getDays($connection);
 
 ?>
@@ -71,15 +69,15 @@ $days = Generate::getDays($connection);
 <?php endforeach; ?>
 <tr>
     <td>Ilość</td>
-    <td><?php echo Generate::getCountOfDoneDays($conn,1)."/".Generate::checkMonth(Generate::getMonth());?></td> 
-    <td><?php echo Generate::getCountOfDoneDays($conn,2)."/".Generate::checkMonth(Generate::getMonth());?></td> 
-    <td><?php echo Generate::getCountOfDoneDays($conn,3)."/".Generate::checkMonth(Generate::getMonth());?></td> 
+    <td><?php echo Generate::getCountOfDoneDays($connection,1)."/".Generate::checkMonth(Generate::getMonth());?></td>
+    <td><?php echo Generate::getCountOfDoneDays($connection,2)."/".Generate::checkMonth(Generate::getMonth());?></td>
+    <td><?php echo Generate::getCountOfDoneDays($connection,3)."/".Generate::checkMonth(Generate::getMonth());?></td>
 </tr>
 <tr>
     <td>Wykonanie</td>
-    <td><?php echo Generate::getProgress($conn,1);?>%</td> 
-    <td><?php echo Generate::getProgress($conn,2);?>%</td> 
-    <td><?php echo Generate::getProgress($conn,3);?>%</td> 
+    <td><?php echo Generate::getProgress($connection,1);?>%</td>
+    <td><?php echo Generate::getProgress($connection,2);?>%</td>
+    <td><?php echo Generate::getProgress($connection,3);?>%</td>
 </tr>
 </table>
 

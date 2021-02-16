@@ -42,8 +42,6 @@ class Generate
      * 
      * @param Object $conn PDO
      * 
-     * @param Integer $month number of month
-     * 
      * @return Bool  
      */
     public static function checkExistData($conn){
@@ -96,9 +94,7 @@ class Generate
         $stmt->bindParam(":month",$month,PDO::PARAM_STR);
         $stmt->execute();
 
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        return $data;
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);;
     }
 
 
@@ -115,6 +111,7 @@ class Generate
     public static function getCountOfDoneDays($conn,$att){
 
         $month = static::getMonth();
+        $sql = '';
 
         if($att==1)
         {
@@ -163,8 +160,3 @@ class Generate
         return $percent*100;
     }
 }
-
-
-
-
-?>
