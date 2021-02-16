@@ -2,15 +2,13 @@
 
 require('Connect.php');
 
-$db_host = "127.0.0.1:3310";
-$db_name = "ex0";
-$db_user = "root";
-$db_pass = "";
+const DB_HOST = "127.0.0.1:3310";
+const DB_NAME = "ex0";
+const DB_USER = "root";
+const DB_PASS = "";
 
 try{
-    $conn = new PDO(Connect::getDSN($db_name,$db_host),$db_user,$db_pass,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci"));
-
-    return $conn;
+    return new PDO(Connect::getDSN(DB_NAME,DB_HOST),DB_USER,DB_PASS,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci"));
 } 
 catch(PDOException $e){
     echo 'Connection failed!'. $e->getMessage();
