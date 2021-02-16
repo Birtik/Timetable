@@ -1,6 +1,6 @@
 <?php
 
-require('Class\Connect.php');
+require('Class/Connect.php');
 
 const DB_HOST = "127.0.0.1:3310";
 const DB_NAME = "ex0";

@@ -3,7 +3,7 @@
 $connection = require('conf.php');
 
 spl_autoload_register(function ($class){
-    require "Class\{$class}.php";
+    require "Class/{$class}.php";
 });
 
 if(isset($_GET['id'])){
